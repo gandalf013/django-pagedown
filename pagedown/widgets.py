@@ -14,7 +14,9 @@ class PagedownWidget(forms.Textarea):
         }
         js = ('%s/pagedown/Markdown.Converter.js' % settings.STATIC_URL.rstrip('/'),
               '%s/pagedown/Markdown.Sanitizer.js' % settings.STATIC_URL.rstrip('/'),
-              '%s/pagedown/Markdown.Editor.js' % settings.STATIC_URL.rstrip('/'),)
+              '%s/pagedown/Markdown.Editor.js' % settings.STATIC_URL.rstrip('/'),
+              'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
+              '%s/js/mathjax-editing.js' % settings.STATIC_URL,)
 
     def render(self, name, value, attrs=None):
         if value is None:
@@ -40,6 +42,8 @@ class PagedownWidget(forms.Textarea):
                         preview : "%(id)s_wmd_preview",
                     }
                     var editor = new Markdown.Editor(converter, "", selectors);
+                    var postfix = "";
+                    somesquares.mathjaxEditing.prepareWmdForMathJax(editor, postfix, [["$", "$"], ["\\\\\\\\(","\\\\\\\\)"]]);
                     editor.run();
                 })();
             </script>
